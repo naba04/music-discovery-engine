@@ -22,7 +22,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.mount("/audio", StaticFiles(directory="data/fma_small"), name="audio")
+import os
+if os.path.isdir("data/fma_small"):
+    app.mount("/audio", StaticFiles(directory="data/fma_small"), name="audio")
 
 client_db = chromadb.PersistentClient(path="./chroma_db")
 collection = client_db.get_or_create_collection(name="song_segments")
